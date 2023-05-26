@@ -18,7 +18,7 @@ For a flash swap to work, the transaction will be composed of these instructions
 5. Repay the SOL for opening the wSOL account back to this program.
 
 Example: (TODO)
-Transaction: (TODO)
+Transaction: https://solscan.io/tx/3ekwFGnYu3CLS7xHfdoJqV2JRErUJ2ayYLyUA71StdbxtYr8oRgiXRHbQBP2u7iuZugx4RkstxMMgzr4ychv4VRc
 
 ## References:
 
