@@ -17,8 +17,8 @@ For a flash swap to work, the transaction will be composed of these instructions
 4. Close the wSOL account and send it to the borrower.
 5. Repay the SOL for opening the wSOL account back to this program.
 
-Example: `./cli/flash-swap.ts`
-Transaction: https://solscan.io/tx/3ekwFGnYu3CLS7xHfdoJqV2JRErUJ2ayYLyUA71StdbxtYr8oRgiXRHbQBP2u7iuZugx4RkstxMMgzr4ychv4VRc
+* Example: `./cli/flash-swap.ts`
+* Transaction: https://solscan.io/tx/3ekwFGnYu3CLS7xHfdoJqV2JRErUJ2ayYLyUA71StdbxtYr8oRgiXRHbQBP2u7iuZugx4RkstxMMgzr4ychv4VRc
 
 ## References:
 
