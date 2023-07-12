@@ -7,6 +7,9 @@ enough SOL to do anything when swapping through Jupiter.
 With this, the borrower can immediately swap any tokens on Jupiter to SOL even if they don't have enough to open
 a wSOL account.
 
+For an implementatin that uses Jupiter Swap as CPI, you can check out: https://github.com/jup-ag/swap-to-sol. The
+CPI implementation has one problem tho, it may run into CPI size limit.
+
 ## How this works?
 
 For a flash swap to work, the transaction will be composed of these instructions:
