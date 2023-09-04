@@ -2,7 +2,7 @@
 seeds = false
 skip-lint = false
 [programs.localnet]
-flash_swap = "JUPLdTqUdKztWJ1isGMV92W2QvmEmzs9WTJjhZe4QdJ"
+flash_fill = "JUPLdTqUdKztWJ1isGMV92W2QvmEmzs9WTJjhZe4QdJ"
 
 [registry]
 url = "https://api.apr.dev"

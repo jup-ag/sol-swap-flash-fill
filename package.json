@@ -2,7 +2,7 @@
   "scripts": {
     "lint:fix": "prettier */*.js \"*/**/*{.js,.ts}\" -w",
     "lint": "prettier */*.js \"*/**/*{.js,.ts}\" --check",
-    "flash-swap": "ts-node cli/flash-swap.ts"
+    "flash-fill": "ts-node cli/flash-fill.ts"
   },
   "dependencies": {
     "@coral-xyz/anchor": "^0.27.0"

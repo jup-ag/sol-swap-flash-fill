@@ -1,11 +1,12 @@
 import * as anchor from "@coral-xyz/anchor";
 import { Program, Wallet, AnchorProvider } from "@coral-xyz/anchor";
-import { IDL, FlashSwap } from "../target/types/flash_swap";
+import { IDL, FlashFill } from "../target/types/flash_fill";
 import {
   PublicKey,
   Keypair,
   Connection,
   AddressLookupTableAccount,
+  TransactionInstruction,
 } from "@solana/web3.js";
 import { bs58 } from "@coral-xyz/anchor/dist/cjs/utils/bytes";
 import {
@@ -25,7 +26,7 @@ export const provider = new AnchorProvider(connection, wallet, {
   commitment: "processed",
 });
 anchor.setProvider(provider);
-export const program = new Program<FlashSwap>(IDL, programId, provider);
+export const program = new Program<FlashFill>(IDL, programId, provider);
 
 const findProgramAuthority = (): PublicKey => {
   return PublicKey.findProgramAddressSync(
@@ -78,4 +79,22 @@ export const getAdressLookupTableAccounts = async (
 
     return acc;
   }, new Array<AddressLookupTableAccount>());
+};
+
+export const instructionDataToTransactionInstruction = (
+  instructionPayload: any
+) => {
+  if (instructionPayload === null) {
+    return null;
+  }
+
+  return new TransactionInstruction({
+    programId: new PublicKey(instructionPayload.programId),
+    keys: instructionPayload.accounts.map((key) => ({
+      pubkey: new PublicKey(key.pubkey),
+      isSigner: key.isSigner,
+      isWritable: key.isWritable,
+    })),
+    data: Buffer.from(instructionPayload.data, "base64"),
+  });
 };

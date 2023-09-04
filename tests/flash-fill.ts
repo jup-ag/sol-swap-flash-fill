@@ -1,6 +1,6 @@
 import * as anchor from "@coral-xyz/anchor";
 import { Program } from "@coral-xyz/anchor";
-import { FlashSwap } from "../target/types/flash_swap";
+import { FlashFill } from "../target/types/flash_fill";
 import {
   Keypair,
   SystemProgram,
@@ -21,11 +21,11 @@ const WALLET_RENT_EXEMPT_MINIMUM = 890_880;
 const LAMPORTS_PER_SIGNATURE = 5000;
 const TOKEN_ACCOUNT_LAMPORTS = 2_039_280;
 
-describe("flash-swap", () => {
+describe("flash-fill", () => {
   // Configure the client to use the local cluster.
   anchor.setProvider(anchor.AnchorProvider.env());
   const provider = anchor.getProvider();
-  const program = anchor.workspace.FlashSwap as Program<FlashSwap>;
+  const program = anchor.workspace.FlashSwap as Program<FlashFill>;
   const borrower = new Keypair();
   const connection = provider.connection;
   const programAuthority = PublicKey.findProgramAddressSync(

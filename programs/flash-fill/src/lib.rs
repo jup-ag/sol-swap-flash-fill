@@ -13,7 +13,7 @@ pub const AUTHORITY_SEED: &[u8] = b"authority";
 declare_id!("JUPLdTqUdKztWJ1isGMV92W2QvmEmzs9WTJjhZe4QdJ");
 
 #[program]
-pub mod flash_swap {
+pub mod flash_fill {
     use super::*;
 
     pub fn borrow(ctx: Context<Borrow>) -> Result<()> {
@@ -23,7 +23,7 @@ pub mod flash_swap {
         let current_index = load_current_index_checked(&ixs)? as usize;
         let current_ix = load_instruction_at_checked(current_index, &ixs)?;
         if current_ix.program_id != *ctx.program_id {
-            return Err(FlashSwapError::ProgramMismatch.into());
+            return Err(FlashFillError::ProgramMismatch.into());
         }
 
         // loop through instructions, looking for an equivalent repay to this borrow
@@ -34,26 +34,26 @@ pub mod flash_swap {
                 if ix.program_id == crate::id() {
                     let ix_discriminator: [u8; 8] = ix.data[0..8]
                         .try_into()
-                        .map_err(|_| FlashSwapError::UnknownInstruction)?;
+                        .map_err(|_| FlashFillError::UnknownInstruction)?;
 
                     // check if we have a toplevel repay toward the program authority
                     if ix_discriminator == self::instruction::Repay::discriminator() {
                         require_keys_eq!(
                             ix.accounts[1].pubkey,
                             ctx.accounts.program_authority.key(),
-                            FlashSwapError::IncorrectProgramAuthority
+                            FlashFillError::IncorrectProgramAuthority
                         );
 
                         break;
                     } else if ix_discriminator == self::instruction::Borrow::discriminator() {
-                        return Err(FlashSwapError::CannotBorrowBeforeRepay.into());
+                        return Err(FlashFillError::CannotBorrowBeforeRepay.into());
                     } else {
-                        return Err(FlashSwapError::UnknownInstruction.into());
+                        return Err(FlashFillError::UnknownInstruction.into());
                     }
                 }
             } else {
                 // no more instructions, so we're missing a repay
-                return Err(FlashSwapError::MissingRepay.into());
+                return Err(FlashFillError::MissingRepay.into());
             }
 
             index += 1
@@ -88,7 +88,7 @@ pub mod flash_swap {
         let current_index = load_current_index_checked(&ixs)? as usize;
         let current_ix = load_instruction_at_checked(current_index, &ixs)?;
         if current_ix.program_id != *ctx.program_id {
-            return Err(FlashSwapError::ProgramMismatch.into());
+            return Err(FlashFillError::ProgramMismatch.into());
         }
 
         let rent = Rent::get()?;
@@ -117,7 +117,7 @@ pub struct Borrow<'info> {
     #[account(mut, seeds = [AUTHORITY_SEED], bump)]
     pub program_authority: SystemAccount<'info>,
     /// CHECK: check instructions account
-    #[account(address = sysvar::instructions::ID @FlashSwapError::AddressMismatch)]
+    #[account(address = sysvar::instructions::ID @FlashFillError::AddressMismatch)]
     pub instructions: UncheckedAccount<'info>,
     pub system_program: Program<'info, System>,
 }
@@ -128,14 +128,14 @@ pub struct Repay<'info> {
     #[account(mut, seeds = [AUTHORITY_SEED], bump)]
     pub program_authority: SystemAccount<'info>,
     /// CHECK: check instructions account
-    #[account(address = sysvar::instructions::ID @FlashSwapError::AddressMismatch)]
+    #[account(address = sysvar::instructions::ID @FlashFillError::AddressMismatch)]
     pub instructions: UncheckedAccount<'info>,
     pub system_program: Program<'info, System>,
 }
 
 /// Errors for this program
 #[error_code]
-pub enum FlashSwapError {
+pub enum FlashFillError {
     #[msg("Address Mismatch")]
     AddressMismatch,
     #[msg("Program Mismatch")]
