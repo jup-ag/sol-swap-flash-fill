@@ -21,7 +21,7 @@ For a flash fill to work, the transaction will be composed of these instructions
 5. Repay the SOL for opening the wSOL account back to this program.
 
 * Example: `./cli/flash-fill.ts`
-* Transaction: https://solscan.io/tx/37yuo3V6W77rayJccEUnE1juUszoj5TX7n1t7yZq291ANf8gw76f8iFf9ueREsjShaLiRNwJPPPmd1PnaiBUBazw
+* Transaction: https://solscan.io/tx/4psWiUFGdRhKqi1UXSWrpoM3RCJWAXpz6CTpsd5fZwjr8nEpLiZVuiyaERj95hUNnm6dhfxircLgAqCbHV3wCVpT
 
 ## References:
 

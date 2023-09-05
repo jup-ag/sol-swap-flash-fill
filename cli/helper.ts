@@ -54,11 +54,6 @@ export const findAssociatedTokenAddress = ({
   )[0];
 };
 
-export const borrowerWSOLAddress = findAssociatedTokenAddress({
-  walletAddress: wallet.publicKey,
-  tokenMintAddress: NATIVE_MINT,
-});
-
 export const getAdressLookupTableAccounts = async (
   keys: string[]
 ): Promise<AddressLookupTableAccount[]> => {

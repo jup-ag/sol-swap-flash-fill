@@ -3,7 +3,6 @@ import {
   provider,
   wallet,
   program,
-  borrowerWSOLAddress,
   connection,
   getAdressLookupTableAccounts,
   instructionDataToTransactionInstruction,
@@ -30,15 +29,10 @@ const getQuote = async (
   ).then((response) => response.json());
 };
 
-const getSwapIx = async (
-  user: PublicKey,
-  outputAccount: PublicKey,
-  quote: any
-) => {
+const getSwapIx = async (user: PublicKey, quote: any) => {
   const data = {
     quoteResponse: quote,
     userPublicKey: user.toBase58(),
-    destinationTokenAccount: outputAccount.toBase58(),
   };
 
   return fetch(`${API_ENDPOINT}/swap-instructions`, {
@@ -117,7 +111,7 @@ const swapToSol = async (
   console.log({ quote });
 
   // Convert the Quote into a Swap instruction
-  const result = await getSwapIx(wallet.publicKey, borrowerWSOLAddress, quote);
+  const result = await getSwapIx(wallet.publicKey, quote);
 
   if ("error" in result) {
     console.log({ result });
